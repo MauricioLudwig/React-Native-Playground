@@ -1,13 +1,36 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
+import ToDoInput from './src/components/ToDoInput/ToDoInput';
+import ToDoList from './src/components/ToDoList/ToDoList';
 
 export default class App extends React.Component {
+
+  state = {
+    todos: ['Hunting', 'Coding']
+  }
+
+  InputHandler = (todo) => {
+    this.setState((prevState) => {
+      return {
+        todos: prevState.todos.concat(todo)
+      };
+    });
+  };
+
+  DeleteItemHandler = (todo) => {
+    this.setState((prevState) => {
+      return {
+        todos: prevState.todos.filter((item) => item != todo)
+      };
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+        <ToDoInput ToDoInputHandler={this.InputHandler} />
+        <ToDoList todos={this.state.todos} deleteItem={this.DeleteItemHandler} />
       </View>
     );
   }
@@ -16,8 +39,9 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#eee',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    padding: 20
   },
 });
